@@ -1,10 +1,6 @@
 const TYPES = {
   Services: {
-    KICs: Symbol.for('KICs'),
-    Kubernetes: Symbol.for('Kubernetes'),
-    Trivy: Symbol.for('Trivy'),
-    TaskRunner: Symbol.for('TaskRunner'),
-    Config: Symbol.for('Config')
+    Kubernetes: Symbol.for('Kubernetes')
   },
   K8S: {
     Config: Symbol.for('Config'),

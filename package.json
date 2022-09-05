@@ -4,6 +4,7 @@
   "description": "Collect operational information from kubernetes cluster",
   "main": "dist/app.js",
   "scripts": {
+    "start": "node dist/app.js",
     "build": "node_modules/typescript/bin/tsc --project ./",
     "test": "jest --coverage --testPathPattern='test/.*\\.spec\\.ts'",
     "lint": "eslint --ext .ts src/",
@@ -43,7 +44,6 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.17.0",
     "inversify": "^6.0.1",
-    "minio": "^7.0.32",
     "reflect-metadata": "^0.1.13"
   }
 }

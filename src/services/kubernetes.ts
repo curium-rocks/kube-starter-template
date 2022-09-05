@@ -1,16 +1,13 @@
 import { inject, injectable } from 'inversify'
-import { CoreV1Api, V1Container } from '@kubernetes/client-node'
+import { CoreV1Api, V1ContainerStatus, V1Pod } from '@kubernetes/client-node'
 import { TYPES } from '../types'
+import { ContainerImageInformation } from '../models/kube'
 
 export interface IKubernetes {
   /**
-   * Get the complete list of visible manifests as a concatenated yaml
-   */
-  getInfraYaml(): Promise<string>
-  /**
    * Get the complete list of visible container images in a cluster
    */
-  getImageList(): Promise<string[]>
+  getImageList(): Promise<ContainerImageInformation[]>
 }
 
 @injectable()
@@ -21,27 +18,27 @@ export class Kubernetes implements IKubernetes {
     this.api = api
   }
 
-  getInfraYaml (): Promise<string> {
-    // find all the pods, de-dup pods created by a controller (replicaset, statefulset, deployment)
-    throw new Error('Method not implemented.')
-  }
-
-  async getImageList (): Promise<string[]> {
+  async getImageList (): Promise<ContainerImageInformation[]> {
     const pods = await this.api.listPodForAllNamespaces()
-    const containerImages : string[] = []
-    const addContainer = (c: V1Container) => {
-      if (c.image) {
-        containerImages.push(c.image)
+    const containerImages : ContainerImageInformation[] = []
+    const addContainer = (c: V1ContainerStatus, p: V1Pod) => {
+      if (c.image && p.spec?.nodeName && c.containerID) {
+        containerImages.push({
+          image: c.image,
+          imageId: c.imageID,
+          node: p.spec?.nodeName,
+          containerId: c.containerID
+        })
       }
     }
     pods.body.items.forEach((pod) => {
-      pod.spec?.containers.forEach(addContainer)
-      pod.spec?.initContainers?.forEach(addContainer)
-      pod.spec?.ephemeralContainers?.forEach(addContainer)
+      pod.status?.containerStatuses?.forEach((c) => addContainer(c, pod))
+      pod.status?.initContainerStatuses?.forEach((c) => addContainer(c, pod))
+      pod.status?.ephemeralContainerStatuses?.forEach((c) => addContainer(c, pod))
     })
     // filter results
     return containerImages
-      .filter((c) => c != null)
-      .filter((c, idx) => containerImages.indexOf(c) === idx)
+      .filter((c) => c.image != null)
+      .filter((c, idx) => containerImages.findIndex((x) => x.image === c.image) === idx)
   }
 }
