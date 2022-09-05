@@ -42,6 +42,9 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/download-artifact@v3
+      with:
+        name: coverage
+        path: coverage
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
