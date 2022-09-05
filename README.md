@@ -37,5 +37,7 @@ This file maps the types defined in `./src/types.ts` to interface types. For mor
 
 ## After Using as Template Todo List
 1) [ ] Update Sonar Project Properties For [Sonar Cloud](https://sonarcloud.io)
-2) [ ] Update [renovate.json](./renovate.json) to meet desired behavior for your needs, docs can be found [here](https://docs.renovatebot.com).
-3) [ ] Update this readme to reflect your project name and info
+2) [ ] Add SONARQUBE_KEY secret to your repo or org if not already present
+3) [ ] Point badges in README.md to correct location for you repo
+3) [ ] Update [renovate.json](./renovate.json) to meet desired behavior for your needs, docs can be found [here](https://docs.renovatebot.com).
+4) [ ] Update this readme to reflect your project name and info
