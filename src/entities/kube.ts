@@ -1,10 +1,20 @@
-import { CoreV1Api, KubeConfig } from '@kubernetes/client-node'
+import { ApiType, KubeConfig } from '@kubernetes/client-node'
+import { injectable } from 'inversify'
 
-const config = new KubeConfig()
-config.loadFromDefault()
+export declare type ApiConstructor<T extends ApiType> = new (server: string) => T;
 
-const Client = config.makeApiClient(CoreV1Api)
+export interface IK8sClientBuilder {
+  buildClient(config: KubeConfig): ApiType
+}
+@injectable()
+export class K8sClientBuilder<T extends ApiConstructor<ApiType>> implements IK8sClientBuilder {
+  private readonly apiConstructor: T
 
-export {
-  Client
+  constructor (apiConstructor: T) {
+    this.apiConstructor = apiConstructor
+  }
+
+  buildClient (config: KubeConfig): ApiType {
+    return config.makeApiClient(this.apiConstructor)
+  }
 }

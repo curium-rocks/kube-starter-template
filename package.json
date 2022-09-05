@@ -7,8 +7,8 @@
     "start": "node dist/app.js",
     "build": "node_modules/typescript/bin/tsc --project ./",
     "test": "jest --coverage --testPathPattern='test/.*\\.spec\\.ts'",
-    "lint": "eslint --ext .ts src/",
-    "lint:fix": "eslint --ext .ts src/ --fix"
+    "lint": "eslint --ext .ts src/ test/",
+    "lint:fix": "eslint --ext .ts src/ test/ --fix"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/curium-rocks/kube-observer#readme",
   "devDependencies": {
     "@jest/globals": "29.0.2",
-    "@types/jest": "29.0.0",
+    "@types/jest": "^29.0.0",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "eslint-config-standard": "^17.0.0",
