@@ -30,7 +30,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       if: ${{ matrix.node-version == '16.x' }}
       with:
-        name: test-coverage
+        name: coverage
         path: |
           coverage
   sonar:
