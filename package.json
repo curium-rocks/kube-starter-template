@@ -44,7 +44,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.22.0",
+    "@kubernetes/client-node": "^1.1.0",
     "inversify": "^6.0.1",
     "reflect-metadata": "^0.2.0"
   }
